@@ -1,0 +1,9 @@
+{
+  "name": "line-vercel-bot",
+  "version": "1.0.0",
+  "dependencies": {
+    "@line/bot-sdk": "^9.7.1",
+    "axios": "^1.6.0",
+    "googleapis": "^148.0.0"
+  }
+}

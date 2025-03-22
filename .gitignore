@@ -1,1 +1,12 @@
-.vercel
+# node_modules は不要
+node_modules/
+
+# Vercelのメタ情報もいらない
+.vercel/
+
+# OS・エディタごとの不要ファイル
+.DS_Store
+Thumbs.db
+
+# 環境ファイル（もしあれば）
+.env
