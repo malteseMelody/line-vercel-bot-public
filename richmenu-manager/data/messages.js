@@ -10,11 +10,11 @@ const numLineShop    = 6;  // LINEで通知された店舗名
 
 // //////////////////////////////////////////////////
 // 画像の固定ディレクトリ
-const carouselBase = "https://line-vercel-52ufwgxe5-maltesemelodys-projects.vercel.app/carousel/";
+const carouselBase = "https://line-vercel-bot-public2.vercel.app/carousel/";
 
-const imagesBase = "https://line-vercel-52ufwgxe5-maltesemelodys-projects.vercel.app/images/";
+const imagesBase = "https://line-vercel-bot-public2.vercel.app/images/";
 
-const videosBase = "https://line-vercel-52ufwgxe5-maltesemelodys-projects.vercel.app/videos/";
+const videosBase = "https://line-vercel-bot-public2.vercel.app/videos/";
 
 
 
@@ -63,14 +63,14 @@ const mediaMessages = {
 		"tap_richMenuA2": [
 										{ type: "text", text: msgA2 },
                     { type: "video",
-                      originalContentUrl: `${videosBase}videoSquare.mp4`,
-                      previewImageUrl:    `${imagesBase}videoiPrev1.jpg` }
+                      originalContentUrl: "https://line-vercel-bot-public.vercel.app/videos/haro16_9.mp4",
+                      previewImageUrl:   "https://line-vercel-bot-public.vercel.app/images/videoiPrev1.jpg" }
                    ],
   	"tap_richMenuA3": [
   									{ type: "text", text: msgA3 },
                     { type: "image",
-                      originalContentUrl: `${imagesBase}imgMap.jpg`,
-                      previewImageUrl:    `${imagesBase}dog2.jpg` }
+                      originalContentUrl: "https://line-vercel-bot-public.vercel.app/images/dog2.jpg",
+                      previewImageUrl:     "https://line-vercel-bot-public.vercel.app/images/dog2.jpg" }
                    ]
 };
 

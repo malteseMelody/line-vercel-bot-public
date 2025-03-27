@@ -161,6 +161,8 @@ async function handleRichMenuTap(data, replyToken, ACCESS_TOKEN) {
   
   // まとめて1回のAPIリクエストで返信
   if (messages.length > 0) {
+		console.log("Reply Token:", replyToken);
+		console.log("送信メッセージ:", JSON.stringify(messages, null, 2));
 		await sendReplyMessage(replyToken, messages, ACCESS_TOKEN);
   }
 }

@@ -10,3 +10,4 @@ Thumbs.db
 
 # 環境ファイル（もしあれば）
 .env
+.vercel

@@ -17,56 +17,98 @@ async function setCarouselMessage(replyToken, ACCESS_TOKEN) {
   };
 
   // 各バブルの定義
-  const flex_message1 = {
-    "type": "bubble",
-    "hero": {
-      "type": "image",
-      "url": `${carouselBase}cPark1.jpg`,
-      "aspectRatio": "1:1",
-      "aspectMode": "fit",    
-      "action": {
-        "type": "uri",
-        "label": "駐車場全体地図",
-        "uri": `${carouselBase}cPark1detail.png`
+const flex_message1 = {
+  type: "bubble",
+  backgroundColor: "#F3C2D5",
+  body: {
+    type: "box",
+    layout: "vertical",
+    contents: [
+      {
+        type: "image",
+        url: "https://line-vercel-bot-public2.vercel.app/carousel/cPark1.jpg",
+        size: "full",
+        aspectRatio: "1:1",
+        aspectMode: "fit",
+        action: {
+          type: "uri",
+          label: "駐車場全体地図",
+          uri: "https://line-vercel-bot-public2.vercel.app/carousel/cPark1detail.png"
+        }
       },
-      "backgroundColor": "#F3C2D5",
-      "size": "full"
-    }
-  };
+      {
+        type: "text",
+        text: "駐車場全体地図",
+        align: "center",
+        weight: "bold",
+        size: "sm",
+        color: "#333333"
+      }
+    ]
+  }
+};
 
-  const flex_message2 = {
-    "type": "bubble",
-    "hero": {
-      "type": "image",
-      "url": `${carouselBase}cPark2.png`,
-      "aspectRatio": "1:1",
-      "aspectMode": "fit",    
-      "action": {
-        "type": "uri",
-        "label": "無料駐車場",
-        "uri": `${carouselBase}cPark2detail.png`
+const flex_message2 = {
+  type: "bubble",
+  backgroundColor: "#F8CBD0",
+  body: {
+    type: "box",
+    layout: "vertical",
+    contents: [
+      {
+        type: "image",
+        url: "https://line-vercel-bot-public2.vercel.app/carousel/cPark2.png",
+        size: "full",
+        aspectRatio: "1:1",
+        aspectMode: "fit",
+        action: {
+          type: "uri",
+          label: "無料駐車場",
+          uri: "https://line-vercel-bot-public2.vercel.app/carousel/cPark2detail.png"
+        }
       },
-      "backgroundColor": "#F8CBD0",
-      "size": "full"
-    }
-  };
+      {
+        type: "text",
+        text: "無料駐車場",
+        align: "center",
+        weight: "bold",
+        size: "sm",
+        color: "#333333"
+      }
+    ]
+  }
+};
 
-  const flex_message3 = {
-    "type": "bubble",
-    "hero": {
-      "type": "image",
-      "url": `${carouselBase}cPark3.png`,
-      "aspectRatio": "1:1",
-      "aspectMode": "fit",    
-      "action": {
-        "type": "uri",
-        "label": "無料駐車場の注意点",
-        "uri": `${carouselBase}cPark3detail.png`
+const flex_message3 = {
+  type: "bubble",
+  backgroundColor: "#F8CBD0",
+  body: {
+    type: "box",
+    layout: "vertical",
+    contents: [
+      {
+        type: "image",
+        url: "https://line-vercel-bot-public2.vercel.app/carousel/cPark3.png",
+        size: "full",
+        aspectRatio: "1:1",
+        aspectMode: "fit",
+        action: {
+          type: "uri",
+          label: "無料駐車場の注意点",
+          uri: "https://line-vercel-bot-public2.vercel.app/carousel/cPark3detail.png"
+        }
       },
-      "backgroundColor": "#F8CBD0",
-      "size": "full"
-    }
-  };
+      {
+        type: "text",
+        text: "無料駐車場の注意点",
+        align: "center",
+        weight: "bold",
+        size: "sm",
+        color: "#333333"
+      }
+    ]
+  }
+};
 
   // カルーセルの内容として、bubble の配列を設定
   const carouselContents = [flex_message1, flex_message2, flex_message3];
