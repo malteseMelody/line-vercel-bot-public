@@ -1,5 +1,7 @@
 const { handleRichMenu } = require('../../richmenu-manager/richMenuHandler');
 const { setSpreadsheet } = require('../utils/spreadsheet');
+const { sendReplyMessage } = require('../utils/lineApiHelpers');
+const { setCarouselMessage } = require('../utils/messageTemplates');
 const { createImageMessage, createVideoMessage } = require('../utils/messageTemplates');
 const { textMessages, mediaMessages, textTemplates, emojiMap } = require('../../richmenu-manager/data/messages');
 const { getSheetData, writeSheetData } = require('../utils/spreadsheet');
@@ -39,8 +41,8 @@ async function handleFollowEvent(event, ACCESS_TOKEN) {
     groupId = event.source.groupId; 
   }
   // スプレッドシートへの書き込み処理
-  let flg = await setSpreadsheet(groupId, event.source.userId, event.replyToken, ACCESS_TOKEN);
-  if (!flg) { return; }
+//  let flg = await setSpreadsheet(groupId, event.source.userId, event.replyToken, ACCESS_TOKEN);
+//  if (!flg) { return; }
   
   let mBody;
   let message = [];
@@ -126,6 +128,8 @@ async function handlePostbackEvent(event, ACCESS_TOKEN) {
 async function handleRichMenuTap(data, replyToken, ACCESS_TOKEN) {
   let messages = [];
   
+  console.log("🔍 postback data:", data, "（型:", typeof data, "）");
+  
   // 画像、動画メッセージにマッチするか？
   if (mediaMessages[data]) {
   	messages = mediaMessages[data];
@@ -139,6 +143,7 @@ async function handleRichMenuTap(data, replyToken, ACCESS_TOKEN) {
   
 	// カルーセルメッセージ専用処理
 	else if (data == "tap_richMenuA4") {
+		console.log("🎯 tap_richMenuA4 マッチしました");
   	await setCarouselMessage(replyToken, ACCESS_TOKEN);
   	return;
   }
@@ -168,57 +173,11 @@ async function handleRichMenuTap(data, replyToken, ACCESS_TOKEN) {
 }
 
 
-// ///////////////////////////////////////////////
-// Replyメッセージ送信
-async function sendReplyMessage(replyToken, messages, ACCESS_TOKEN) {
-  const url = 'https://api.line.me/v2/bot/message/reply';
-
-  await axios.post(
-    url,
-    { replyToken, messages },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
-      }
-    }
-  );
-}
-
-
-// ///////////////////////////////////////////////
-// プッシュメッセージ送信
-async function sendPushMessage(userId, messages, ACCESS_TOKEN) {
-  const url = 'https://api.line.me/v2/bot/message/push';
-
-  try {
-    const response = await axios.post(
-      url,
-      {
-        to: userId,
-        messages: messages
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${ACCESS_TOKEN}`
-        }
-      }
-    );
-    console.log('プッシュ成功:', response.data);
-  } catch (error) {
-    console.error('プッシュエラー:', error.response ? error.response.data : error.message);
-  }
-}
-
-
 module.exports = {
   handleEvent,
   handleFollowEvent,
   handleMessageEvent,
   handlePostbackEvent,
-  handleRichMenuTap,
-  sendReplyMessage,
-  sendPushMessage
+  handleRichMenuTap
 };
 

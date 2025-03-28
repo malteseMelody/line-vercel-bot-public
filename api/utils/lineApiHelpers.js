@@ -1,6 +1,59 @@
 
 const axios = require('axios');
 
+// ///////////////////////////////////////////////
+// Replyメッセージ送信
+async function sendReplyMessage(replyToken, messages, ACCESS_TOKEN) {
+  const url = 'https://api.line.me/v2/bot/message/reply';
+
+  try {
+    const response = await axios.post(
+      url,
+      { replyToken, messages },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+        }
+      }
+    );
+    console.log("LINEメッセージ送信成功", response.data);
+  } catch (error) {
+    if (error.response) {
+      console.error("❌LINEメッセージ送信失敗:", error.response.status);
+    } else {
+      console.error("❌ネットワークまたはaxiosレベルのエラー:", error.message);
+    }
+  }
+}
+
+
+// ///////////////////////////////////////////////
+// プッシュメッセージ送信
+async function sendPushMessage(userId, messages, ACCESS_TOKEN) {
+  const url = 'https://api.line.me/v2/bot/message/push';
+
+  try {
+    const response = await axios.post(
+      url,
+      {
+        to: userId,
+        messages: messages
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${ACCESS_TOKEN}`
+        }
+      }
+    );
+    console.log('プッシュ成功:', response.data);
+  } catch (error) {
+    console.error('プッシュエラー:', error.response ? error.response.data : error.message);
+  }
+}
+
+
 // //////////////////////////////////////////////////
 // 表示名(displayName)を取得する
 async function getDisplayName(userId, ACCESS_TOKEN) {
@@ -65,6 +118,8 @@ async function getStatusMessage(userId, ACCESS_TOKEN) {
 
 
 module.exports = {
+  sendReplyMessage,
+  sendPushMessage,
 	getDisplayName,
 	getPictureUrl,
   getStatusMessage

@@ -1,5 +1,7 @@
-
+const { sendReplyMessage } = require('../utils/lineApiHelpers');
+const eventsModule = require('../handlers/events');
 const messages = require('../../richmenu-manager/data/messages');
+
 
 // ///////////////////////////////////////////// 
 // テキストメッセージの後にカルーセルメッセージを出力する
@@ -10,103 +12,114 @@ const messages = require('../../richmenu-manager/data/messages');
 // 動画も載せられるようになったけど誰もしてないことに何かを感じるのでしない
 
 async function setCarouselMessage(replyToken, ACCESS_TOKEN) {
+	console.log("🚨 setCarouselMessage() が呼び出されました！");
+
   // テキストメッセージ（説明文）
   const textMessage = {
     type: "text",
-    text: msgA4
+    text: messages.msgA4
   };
 
   // 各バブルの定義
 const flex_message1 = {
-  type: "bubble",
-  backgroundColor: "#F3C2D5",
-  body: {
-    type: "box",
-    layout: "vertical",
-    contents: [
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
       {
-        type: "image",
-        url: "https://line-vercel-bot-public2.vercel.app/carousel/cPark1.jpg",
-        size: "full",
-        aspectRatio: "1:1",
-        aspectMode: "fit",
-        action: {
-          type: "uri",
-          label: "駐車場全体地図",
-          uri: "https://line-vercel-bot-public2.vercel.app/carousel/cPark1detail.png"
+        "type": "image",
+        "url": "https://line-vercel-bot-public2.vercel.app/carousel/cPark1.jpg",
+        "size": "full",
+        "aspectRatio": "1:1",
+        "aspectMode": "fit",
+        "action": {
+          "type": "uri",
+          "uri": "https://line-vercel-bot-public2.vercel.app/carousel/cPark1detail.png"
         }
       },
       {
-        type: "text",
-        text: "駐車場全体地図",
-        align: "center",
-        weight: "bold",
-        size: "sm",
-        color: "#333333"
+        "type": "text",
+        "text": "駐車場全体地図",
+        "align": "center",
+        "weight": "bold",
+        "size": "sm",
+        "color": "#333333"
       }
     ]
+  },
+  "styles": {
+    "body": {
+      "backgroundColor": "#F3C2D5"
+    }
   }
 };
 
 const flex_message2 = {
-  type: "bubble",
-  backgroundColor: "#F8CBD0",
-  body: {
-    type: "box",
-    layout: "vertical",
-    contents: [
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
       {
-        type: "image",
-        url: "https://line-vercel-bot-public2.vercel.app/carousel/cPark2.png",
-        size: "full",
-        aspectRatio: "1:1",
-        aspectMode: "fit",
-        action: {
-          type: "uri",
-          label: "無料駐車場",
-          uri: "https://line-vercel-bot-public2.vercel.app/carousel/cPark2detail.png"
+        "type": "image",
+        "url": "https://line-vercel-bot-public2.vercel.app/carousel/cPark2.png",
+        "size": "full",
+        "aspectRatio": "1:1",
+        "aspectMode": "fit",
+        "action": {
+          "type": "uri",
+          "uri": "https://line-vercel-bot-public2.vercel.app/carousel/cPark2detail.png"
         }
       },
       {
-        type: "text",
-        text: "無料駐車場",
-        align: "center",
-        weight: "bold",
-        size: "sm",
-        color: "#333333"
+        "type": "text",
+        "text": "駐車場全体地図",
+        "align": "center",
+        "weight": "bold",
+        "size": "sm",
+        "color": "#333333"
       }
     ]
+  },
+  "styles": {
+    "body": {
+      "backgroundColor": "#F3C2D5"
+    }
   }
 };
 
 const flex_message3 = {
-  type: "bubble",
-  backgroundColor: "#F8CBD0",
-  body: {
-    type: "box",
-    layout: "vertical",
-    contents: [
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
       {
-        type: "image",
-        url: "https://line-vercel-bot-public2.vercel.app/carousel/cPark3.png",
-        size: "full",
-        aspectRatio: "1:1",
-        aspectMode: "fit",
-        action: {
-          type: "uri",
-          label: "無料駐車場の注意点",
-          uri: "https://line-vercel-bot-public2.vercel.app/carousel/cPark3detail.png"
+        "type": "image",
+        "url": "https://line-vercel-bot-public2.vercel.app/carousel/cPark3.png",
+        "size": "full",
+        "aspectRatio": "1:1",
+        "aspectMode": "fit",
+        "action": {
+          "type": "uri",
+          "uri": "https://line-vercel-bot-public2.vercel.app/carousel/cPark3detail.png"
         }
       },
       {
-        type: "text",
-        text: "無料駐車場の注意点",
-        align: "center",
-        weight: "bold",
-        size: "sm",
-        color: "#333333"
+        "type": "text",
+        "text": "駐車場全体地図",
+        "align": "center",
+        "weight": "bold",
+        "size": "sm",
+        "color": "#333333"
       }
     ]
+  },
+  "styles": {
+    "body": {
+      "backgroundColor": "#F3C2D5"
+    }
   }
 };
 
@@ -123,7 +136,11 @@ const flex_message3 = {
       contents: carouselContents
     }
   };
-
+	
+	console.log("📦 Flex Message 中身:", JSON.stringify(flexMessage, null, 2));
+	console.log("🚀 実際に送るメッセージ:", [textMessage, flexMessage]);
+　console.log("🧪 sendReplyMessage:", typeof sendReplyMessage);
+	
   // 送信するメッセージは、テキストとFlex Messageを配列にしてまとめて送る
 	await sendReplyMessage(replyToken, [textMessage, flexMessage], ACCESS_TOKEN);
 

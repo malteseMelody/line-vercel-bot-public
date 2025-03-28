@@ -8,16 +8,6 @@ const numStatusMsg   = 5;  // ユーザのステータスメッセージ
 const numLineShop    = 6;  // LINEで通知された店舗名
 
 
-// //////////////////////////////////////////////////
-// 画像の固定ディレクトリ
-const carouselBase = "https://line-vercel-bot-public2.vercel.app/carousel/";
-
-const imagesBase = "https://line-vercel-bot-public2.vercel.app/images/";
-
-const videosBase = "https://line-vercel-bot-public2.vercel.app/videos/";
-
-
-
 // ////////////////////////////////////////////////
 // 出力メッセージはここで一括定義
 const msgA1 = "・イベント名：WAN'S Dog Expo 2025 Marina City\n・開催予定時期：2025年02月22～23日(土・日)少雨決行\n※荒天中止\n※中止の際はSNSにて発信いたします。\n・開催場所：和歌山マリーナシティ　第三駐車場\n（〒641-0014 和歌山県和歌山市毛見１５２７）\n・開催時間：09:30～16:00\n・料金：入場料￥1,000（小学生以下無料）\n・出店内容：犬関連商品の小売店舗、キッチンカー\n・出店予定数：200ブース";   
@@ -40,37 +30,38 @@ const msgTimeoutAppend = "タイムアウトを検知したためファイルへ
 const msgPostpone = "メッセージありがとうございます！\n申し訳ございませんが、こちらのアカウントでは個別のお問い合わせには対応しておりません。\nどうぞ次の配信をお待ちください。\n\nもしメニューをご覧いただけない場合は、左下の「≡」のマークをタップしていただくか、一度トーク画面を閉じて再度開いてください。";
 
 
+// //////////////////////////////////////////////////
+// 画像、動画の固定ディレクトリ
+const baseDir = "https://line-vercel-bot-public2.vercel.app/";
+
 
 // //////////////////////////////////////////////////
 // messageTemplates.jsで使うPostbackイベントの対応付け
 // 上記で宣言した後にこのロジックを持ってくること
-// テキストメッセージ
+// テキストメッセージ(カルーセルメッセージのテキスト部分はここで定義しちゃ駄目)
 const textMessages = {
-    "tap_richMenuA1"  : msgA1,
-    "tap_richMenuA4"  : msgA4,
-    "tap_richMenuA5"  : msgA5,
-    "tap_richMenuB1"  : msgB1,
-    "tap_richMenuB2"  : msgB2,
-    "tap_richMenuB3"  : msgB3,
-    "tap_richMenuB4"  : msgB4,
-    "msgTimeoutAppend": msgTimeoutAppend,
-    "msgPostpone"     : msgPostpone
+  "tap_richMenuA1"  : msgA1,
+  "tap_richMenuA5"  : msgA5,
+  "tap_richMenuB1"  : msgB1,
+  "tap_richMenuB2"  : msgB2,
+  "tap_richMenuB3"  : msgB3,
+  "tap_richMenuB4"  : msgB4
 };
 
 
 // 画像・動画メッセージ
 const mediaMessages = {
-		"tap_richMenuA2": [
-										{ type: "text", text: msgA2 },
-                    { type: "video",
-                      originalContentUrl: "https://line-vercel-bot-public.vercel.app/videos/haro16_9.mp4",
-                      previewImageUrl:   "https://line-vercel-bot-public.vercel.app/images/videoiPrev1.jpg" }
+	"tap_richMenuA2": [
+		{ type: "text", text: msgA2 },
+    { type: "video",
+      originalContentUrl: `${baseDir}videos/haro16_9.mp4`,
+      previewImageUrl:   "https://line-vercel-bot-public2.vercel.app/images/videoiPrev1.jpg" }
                    ],
-  	"tap_richMenuA3": [
-  									{ type: "text", text: msgA3 },
-                    { type: "image",
-                      originalContentUrl: "https://line-vercel-bot-public.vercel.app/images/dog2.jpg",
-                      previewImageUrl:     "https://line-vercel-bot-public.vercel.app/images/dog2.jpg" }
+	"tap_richMenuA3": [
+		{ type: "text", text: msgA3 },
+    { type: "image",
+      originalContentUrl: "https://line-vercel-bot-public2.vercel.app/images/dog2.jpg",
+      previewImageUrl:     "https://line-vercel-bot-public2.vercel.app/images/dog2.jpg" }
                    ]
 };
 
@@ -104,6 +95,9 @@ module.exports = {
 	textMessages,
 	mediaMessages,
   textTemplates,
-  emojiMap
+  emojiMap,
+  msgA4,
+  msgTimeoutAppend,
+  msgPostpone
 };
 
