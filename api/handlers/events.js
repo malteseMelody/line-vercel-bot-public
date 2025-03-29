@@ -1,10 +1,8 @@
 const { handleRichMenu } = require('../../richmenu-manager/richMenuHandler');
-const { setSpreadsheet } = require('../utils/spreadsheet');
-const { sendReplyMessage } = require('../utils/lineApiHelpers');
-const { setCarouselMessage } = require('../utils/messageTemplates');
-const { createImageMessage, createVideoMessage } = require('../utils/messageTemplates');
+const { writeUserDataToExcel } = require("../utils/excelWriter");
+const { sendReplyMessage, getUserProfile } = require('../utils/lineApiHelpers');
+const { setCarouselMessage, createImageMessage, createVideoMessage, buildEmojiMessage } = require('../utils/messageTemplates');
 const { textMessages, mediaMessages, textTemplates, emojiMap } = require('../../richmenu-manager/data/messages');
-const { getSheetData, writeSheetData } = require('../utils/spreadsheet');
 const axios = require('axios');
 const messages = require('../../richmenu-manager/data/messages');
 
@@ -33,34 +31,28 @@ async function handleEvent(event, ACCESS_TOKEN) {
 // ///////////////////////////////////////////
 // followイベントの処理
 async function handleFollowEvent(event, ACCESS_TOKEN) {
-  const name = arguments.callee.name;
-  // logToSpreadsheet(name, "follow受信:event=" + JSON.stringify(event));
-
-  let groupId = null;
-  if (event.source.type === 'group') { 
-    groupId = event.source.groupId; 
-  }
-  // スプレッドシートへの書き込み処理
-//  let flg = await setSpreadsheet(groupId, event.source.userId, event.replyToken, ACCESS_TOKEN);
-//  if (!flg) { return; }
-  
   let mBody;
   let message = [];
+	
+	const userId = event.source.userId;
+  const groupId = event.source.groupId || null;
   
-  const displayName = await getDisplayName(event.source.userId, ACCESS_TOKEN);
+  const profile = await getUserProfile(userId, ACCESS_TOKEN);
+  
+  const { displayName, pictureUrl, statusMessage } = profile;
+  
+  // 書き込み処理
+  writeUserDataToExcel(groupId, userId, displayName, pictureUrl, statusMessage);
+  
+  const followText  = textTemplates["msgFollow"];
   
   // dispayNameの中に$があったら表示しない(絵文字の数と位置に狂いが出る為)
-  if (displayName == null) {
-    mBody = msgFollow;
-  } 
-  else {
-    if (displayName.includes("$")) {
-      mBody = msgFollow;
-    } else {
-      mBody = displayName + "さん、" + msgFollow;
-    }
-  }
-
+	if (displayName == null || displayName.includes("$")) {
+  	mBody = followText;
+	} else {
+  	mBody = `${displayName}さん、${followText}`;
+	}
+  
   try {
 		// 絵文字付きテキストを組み立てる
   	const emojiTextMessage = buildEmojiMessage("msgFollow", mBody);
@@ -79,23 +71,16 @@ async function handleFollowEvent(event, ACCESS_TOKEN) {
 // messageイベントの処理
 async function handleMessageEvent(event, ACCESS_TOKEN) {
   let message = [];
-  const name = arguments.callee.name;
   const data = event.message.text;
   
   // コマンドラインから入力したときここに来る
   if (data == "ワイワイ" ) {
-  	try {
-			// 絵文字付きテキストを組み立てる
-    	const emojiTextMessage = buildEmojiMessage(data);
-    	message.push(emojiTextMessage);
-  	} catch (error) {
-    	console.warn(`message絵文字メッセージの構築失敗: ${error.message}`);
-  	}
+    message = { type: "text", text: messages.msgY };
   }
   else {  
     // コマンドラインから何か叩くとメッセージとして通知される
     // 問い合わせは受け付けてないのでエラーにする
-    message = { type: "text", text: msgPostpone };
+    message = { type: "text", text: messages.msgPostpone };
   }
   
   await sendReplyMessage(event.replyToken, [message], ACCESS_TOKEN);
@@ -110,16 +95,18 @@ async function handleMessageEvent(event, ACCESS_TOKEN) {
 // postbackイベント：リッチメニューのタップ処理へ委譲
 async function handlePostbackEvent(event, ACCESS_TOKEN) {
 
+  // 最初がtap_richMenuで始まるならリッチメニューをタップしたということ
+  if (event.postback.data.startsWith("tap_richMenu"))  { 
+    await handleRichMenuTap(event.postback.data, event.replyToken, ACCESS_TOKEN);
+    return;
+  } 
+  
   // タブ切り替えが起きたというお知らせ(特に何もしない)
   if ( event.postback.data == "change to A" 
     || event.postback.data == "change to B" ) {
      return; 
   }
 
-  // 最初がtap_richMenuで始まるならリッチメニューをタップしたということ
-  if (event.postback.data.startsWith("tap_richMenu"))  { 
-    await handleRichMenuTap(event.postback.data, event.replyToken, ACCESS_TOKEN);
-  } 
 }
 
 

@@ -153,7 +153,7 @@ const flex_message3 = {
 function buildEmojiMessage(templateKey, mBody) {
 	const { textTemplates, emojiMap } = require('../../richmenu-manager/data/messages');
 	
-  const rawText   = textTemplates[templateKey];
+  let   rawText   = textTemplates[templateKey];
   const emojiList = emojiMap[templateKey];
   
   // followの挨拶の時、最初に「～さん、こんにちは」が入ることが
@@ -161,6 +161,12 @@ function buildEmojiMessage(templateKey, mBody) {
   if (templateKey == "msgFollow") {
 		rawText = mBody;
 	}
+	
+	// 末尾に$があるとたまにLINEがご機嫌斜めになってエラー400を返す
+	// エラーを返し始めたら断固返すのでこの処理もやめる
+//	if (rawText.endsWith('$')) {
+//  	rawText += " "; 
+//	}
 	
 	if (!rawText) {
     throw new Error(`テキストテンプレートが見つかりません: ${templateKey}`);
@@ -170,7 +176,9 @@ function buildEmojiMessage(templateKey, mBody) {
   // $がなかったらmatchはnullを返すのでlengthが誤動作するが
   // "|| []"(または空の配列、の意味)を返すことでlengthは0を返してくれるようになる
   const placeholderCount = (rawText.match(/\$/g) || []).length;
-  
+  console.log("💡 placeholderCount ($の数):", placeholderCount);
+  console.log("🔢 emojiList.length:", emojiList ? emojiList.length : 0);
+
   if (!emojiList || placeholderCount !== emojiList.length) {
     throw new Error(`$の数(${placeholderCount})とemojiListの数(${emojiList ? emojiList.length : 0})が一致しません: ${templateKey}`);
   }
@@ -195,6 +203,16 @@ function buildEmojiMessage(templateKey, mBody) {
     placeholderIndex = rawText.indexOf("$", placeholderIndex + 1);
     i++;
   }
+	
+	console.log("📦 最終構築される emojis 配列:", emojis);
+	console.log("✅ 最終返却メッセージ:", {
+  	type: "text",
+  	text: rawText,
+  	emojis: emojis
+	});
+	
+	console.log("📏 rawText.length:", rawText.length);
+	console.log("🧪 rawText文字別:", rawText.split('').map((ch, i) => `${i}:${ch}`).join(' | '));
 	
   return { type: "text", text: rawText, emojis: emojis };
 	

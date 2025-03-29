@@ -55,8 +55,8 @@ async function sendPushMessage(userId, messages, ACCESS_TOKEN) {
 
 
 // //////////////////////////////////////////////////
-// 表示名(displayName)を取得する
-async function getDisplayName(userId, ACCESS_TOKEN) {
+// LINEのユーザプロフィールをまとめて取得する
+async function getUserProfile(userId, ACCESS_TOKEN) {
   const url = `https://api.line.me/v2/bot/profile/${userId}`;
 
   try {
@@ -66,10 +66,10 @@ async function getDisplayName(userId, ACCESS_TOKEN) {
       }
     });
 
-    return response.data.displayName;
+    return response.data; // displayName, pictureUrl, statusMessage を含む
 
   } catch (error) {
-    console.error("ユーザー名未指定: ", error.message);
+    console.error("❌ ユーザープロフィール取得失敗:", error.message);
     return null;
   }
 };
@@ -120,7 +120,5 @@ async function getStatusMessage(userId, ACCESS_TOKEN) {
 module.exports = {
   sendReplyMessage,
   sendPushMessage,
-	getDisplayName,
-	getPictureUrl,
-  getStatusMessage
+	getUserProfile
 };

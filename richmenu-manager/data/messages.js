@@ -27,6 +27,8 @@ const msgB4 = "現在準備中です。\n情報更新まで今しばらくお待
 
 const msgTimeoutAppend = "タイムアウトを検知したためファイルへの書き込みに失敗しました。\nもう一度処理を行ってください。";
 
+const msgY = "こんにちは!!\n投稿やライブを楽しみにしててね!!";
+
 const msgPostpone = "メッセージありがとうございます！\n申し訳ございませんが、こちらのアカウントでは個別のお問い合わせには対応しておりません。\nどうぞ次の配信をお待ちください。\n\nもしメニューをご覧いただけない場合は、左下の「≡」のマークをタップしていただくか、一度トーク画面を閉じて再度開いてください。";
 
 
@@ -55,13 +57,19 @@ const mediaMessages = {
 		{ type: "text", text: msgA2 },
     { type: "video",
       originalContentUrl: `${baseDir}videos/haro16_9.mp4`,
-      previewImageUrl:   "https://line-vercel-bot-public2.vercel.app/images/videoiPrev1.jpg" }
+      previewImageUrl:    `${baseDir}images/videoiPrev1.jpg` }
                    ],
 	"tap_richMenuA3": [
 		{ type: "text", text: msgA3 },
     { type: "image",
-      originalContentUrl: "https://line-vercel-bot-public2.vercel.app/images/dog2.jpg",
-      previewImageUrl:     "https://line-vercel-bot-public2.vercel.app/images/dog2.jpg" }
+      originalContentUrl: `${baseDir}images/imgMap.jpg`,
+      previewImageUrl:    `${baseDir}images/imgMap.jpg` },
+    { type: "image",
+      originalContentUrl: `${baseDir}images/dog1.jpg`,
+      previewImageUrl:    `${baseDir}images/dog1.jpg` },
+    { type: "image",
+      originalContentUrl: `${baseDir}images/dog2.jpg`,
+      previewImageUrl:    `${baseDir}images/dog2.jpg` }
                    ]
 };
 
@@ -70,9 +78,9 @@ const mediaMessages = {
 const textTemplates = {
 	"msgFollow": "はじめまして$\nお友だち追加ありがとうございます！\nこのアカウントでは最新情報を定期的に配信して参ります。\nどうぞお楽しみに！\n\nメニューが表示されない場合、いったんトーク画面を閉じて再度開いてくださいね$",
 	
-	"ワイワイ": "こんにちは$\n投稿やライブを楽しみにしててね$",
-  
-  "tap_richMenuB5": "イベントを楽しむためのグッドマナーです$以下省略$"
+//	"ワイワイ": "こんにちは$\n投稿やライブを楽しみにしててね!!",
+	
+	  "tap_richMenuB5": "イベントを楽しむためのグッドマナーです$以下省略$"
 };
 
 const emojiMap = {
@@ -80,10 +88,9 @@ const emojiMap = {
       { productId: "5ac21184040ab15980c9b43a", emojiId: "011" },
       { productId: "5ac21184040ab15980c9b43a", emojiId: "154" }
   ],
-  "ワイワイ": [
-      { productId: "5ac21184040ab15980c9b43a", emojiId: "157" },
-      { productId: "5ac21184040ab15980c9b43a", emojiId: "013" }
-  ],
+//  "ワイワイ": [
+//      { productId: "5ac21184040ab15980c9b43a", emojiId: "157" }
+//  ],
   "tap_richMenuB5": [
 			{ productId: '5ac1bfd5040ab15980c9b435', emojiId: '001' },
 			{ productId: '5ac1bfd5040ab15980c9b435', emojiId: '002' }
@@ -97,6 +104,7 @@ module.exports = {
   textTemplates,
   emojiMap,
   msgA4,
+  msgY,
   msgTimeoutAppend,
   msgPostpone
 };
