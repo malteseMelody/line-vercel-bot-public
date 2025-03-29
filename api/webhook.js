@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { handleEvent } = require('./handlers/events');
 
 function buffer(req) {
