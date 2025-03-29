@@ -16,3 +16,6 @@ async function main() {
   console.log("✅ リッチメニュー再作成完了");
 }
 
+// メイン関数を呼び出す
+main();
+
