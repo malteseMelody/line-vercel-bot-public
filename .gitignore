@@ -4,6 +4,9 @@ node_modules/
 # Vercelのメタ情報もいらない
 .vercel/
 
+# Excelなど一時的データファイルを除外
+*.xlsx
+
 # OS・エディタごとの不要ファイル
 .DS_Store
 Thumbs.db
